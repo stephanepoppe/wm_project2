@@ -1,7 +1,17 @@
 
+.login{
+	color: #34495e;
+}
+
+.login input{
+	width: 96%;
+}
+
 
 @media (max-width: 979px){
 	.nav-collapse, .nav-collapse.collapse {
 	height: auto;
 	overflow: visible;
 }
+
+

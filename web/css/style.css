@@ -1,0 +1,7 @@
+
+
+@media (max-width: 979px){
+	.nav-collapse, .nav-collapse.collapse {
+	height: auto;
+	overflow: visible;
+}

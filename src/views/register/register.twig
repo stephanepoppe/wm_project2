@@ -10,7 +10,8 @@
 				<div class="control-group">
 					{{ form_label(registerform.name) }}
 			   		{{ form_widget(registerform.name) }}
-			   		{{ form_errors(registerform.name) }} 
+			   		{{ form_errors(registerform.name, {'attr': {'class': 'text-error'} }) }}
+
 			   	</div>
 			   	<div class="control-group">
 			   		{{ form_label(registerform.email) }}

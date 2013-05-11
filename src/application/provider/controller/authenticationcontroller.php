@@ -26,21 +26,28 @@ class AuthenticationController implements ControllerProviderInterface
     	// defaults
     	$data = array(
 	        'name' => 'naam',
-	        'email' => 'email',
+	        'email' => 'gebruiker@mail.com',
 	        'password',
 	        'passwordRepeat'
 	    );
 
-    	$registerform = $app['form.factory']->createBuilder('form', $data)
+    	$registerform = $app['form.factory']->createNamedBuilder('registerform', 'form', $data)
 	        ->add('name', 'text', 
-	        	array('constraints' => new Assert\NotBlank()))
+	        	array('constraints' => new Assert\NotBlank(
+	        		array('message' => 'Gelieve een gebruikersnaam in te vullen')), 
+	        	'label' => 'Gebruikersnaam'))
 	        ->add('email', 'email', 
-	        	array('constraints' => new Assert\Email()))
+	        	array('constraints' => new Assert\Email(
+	        		array('message' => 'Gelieve uw email op in te vullen')), 
+	        	'label' => 'Email'))
 	        ->add('password', 'password', 
-	        	array('constraints' => new Assert\NotBlank()))
+	        	array('constraints' => new Assert\NotBlank(
+	        		array('message' => 'Gelieve een Wachtwoord op te geven')), 
+	        	'label' => 'Wachtwoord'))
 	        ->add('passwordRepeat', 'password',  
-	        	array('constraints' => new Assert\NotBlank()),
-	        	array('label' => 'test'))
+	        	array('constraints' => new Assert\NotBlank(
+	        		array('message' => 'Gelieve het wachtwoord te herhalen')), 
+	        	'label' => 'Wachtwoord herhalen'))
 	        ->getForm();
 
 	    $request = $app['request'];
@@ -49,25 +56,22 @@ class AuthenticationController implements ControllerProviderInterface
 	    if ('POST' === $request->getMethod()) {
 	    	$registerform->bind($request);
 
-	    	
 	    	if ($registerform->isValid()) {
             	$data = $registerform->getData();
-
             	if ($data['password'] === $data['passwordRepeat']){
             		$app['db']->insert('users', 
-            		array('name' => $data['name'],
-            			'mail' => $data['mail'],
-            			'password' => md5($data['password'])));
+            			array('name' => $data['name'],
+            				'mail' => $data['mail'],
+            				'password' => md5($data['password'])));
+            		// redirect to home
+            		return $app->redirect($app['url_generator']->generate('home'));
             	} else{
-            		var_dump('test');
+            		var_dump('Error');
             	}
 
-           		// redirect to home
-            	return $app->redirect($app['url_generator']->generate('home'));
-        	}
-        	
-	    }
 
+        	}
+	    }
 
 	    // display the form
     	return $app['twig']->render('register/register.twig', array('registerform' => $registerform->createView()));

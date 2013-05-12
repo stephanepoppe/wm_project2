@@ -1,0 +1,40 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+	
+	<div class="span5">
+	<div class="login">
+		<div class="login-form">
+			<form action="{{ path('register')}}" method="post" novalidate>
+				<h1>Register</h1>
+				<div class="control-group">
+					{{ form_label(registerform.name) }}
+			   		{{ form_widget(registerform.name) }}
+			   		{{ form_errors(registerform.name, {'attr': {'class': 'text-error'} }) }}
+
+			   	</div>
+			   	<div class="control-group">
+			   		{{ form_label(registerform.email) }}
+			   		{{ form_widget(registerform.email) }}
+			   		{{ form_errors(registerform.email) }} 
+			   	</div>
+			   	<div class="control-group">
+			   		{{ form_label(registerform.password) }}
+			   		{{ form_widget(registerform.password) }}
+			   		{{ form_errors(registerform.password) }} 
+			   	</div>
+			  	<div class="control-group">
+			  		{{ form_label(registerform.passwordRepeat) }}
+			   		{{ form_widget(registerform.passwordRepeat) }}
+			   		{{ form_errors(registerform.passwordRepeat) }} 
+			   	</div>
+			   	{{ form_rest(registerform) }}
+
+			    <input class="btn btn-primary btn-large btn-block" type="submit" name="submit" value="Registreer" />
+			    <a class="login-link" href="#">Heeft u al een account?</a>
+			</form>
+		</div>
+	</div>
+	</div>
+
+{% endblock %}

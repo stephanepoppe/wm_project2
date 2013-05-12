@@ -13,6 +13,7 @@ Thumbs.db
 Icon
 
 
+/vendor
 
 composer.lock
 composer.phar

@@ -16,29 +16,28 @@ class AuthenticationController implements ControllerProviderInterface
     public function connect(Application $app)
     {
         $controllers = $app['controllers_factory'];
-        $controllers->match('/', array($this,"registerForm"))->bind('register');;
+        $controllers->match('/register', array($this,"registerForm"))->bind('register');
+        $controllers->match('/login', array($this,"loginForm"))->bind('login');
+        $controllers->match('/logout', array($this,"logout"))->bind('logout');
 
         return $controllers;
     }
 
+    public  function logout(Application $app){
+    	$app['session']->clear('name');
+    	return $app->redirect($app['url_generator']->generate('home'));
+    }
+
 
     public  function registerForm(Application $app){
-    	// defaults
-    	$data = array(
-	        'name' => 'naam',
-	        'email' => 'gebruiker@mail.com',
-	        'password',
-	        'passwordRepeat'
-	    );
-
-    	$registerform = $app['form.factory']->createNamedBuilder('registerform', 'form', $data)
+    	$registerform = $app['form.factory']->createNamedBuilder('registerform', 'form')
 	        ->add('name', 'text', 
 	        	array('constraints' => new Assert\NotBlank(
 	        		array('message' => 'Gelieve een gebruikersnaam in te vullen')), 
 	        	'label' => 'Gebruikersnaam'))
 	        ->add('email', 'email', 
 	        	array('constraints' => new Assert\Email(
-	        		array('message' => 'Gelieve uw email op in te vullen')), 
+	        		array('message' => 'Gelieve uw email in te vullen')), 
 	        	'label' => 'Email'))
 	        ->add('password', 'password', 
 	        	array('constraints' => new Assert\NotBlank(
@@ -52,7 +51,6 @@ class AuthenticationController implements ControllerProviderInterface
 
 	    $request = $app['request'];
 
-
 	    if ('POST' === $request->getMethod()) {
 	    	$registerform->bind($request);
 
@@ -61,19 +59,64 @@ class AuthenticationController implements ControllerProviderInterface
             	if ($data['password'] === $data['passwordRepeat']){
             		$app['db']->insert('users', 
             			array('name' => $data['name'],
-            				'mail' => $data['mail'],
+            				'mail' => $data['email'],
             				'password' => md5($data['password'])));
+
+            		// store username in session
+            		$app['session']->set('user', array('name' => $data['name']));
             		// redirect to home
             		return $app->redirect($app['url_generator']->generate('home'));
-            	} else{
-            		var_dump('Error');
             	}
-
-
         	}
 	    }
 
 	    // display the form
-    	return $app['twig']->render('register/register.twig', array('registerform' => $registerform->createView()));
+    	return $app['twig']->render('authentication/register.twig', array('registerform' => $registerform->createView()));
+    }
+
+
+    public  function loginForm(Application $app){
+    	
+    	$loginform = $app['form.factory']->createNamedBuilder('loginform', 'form')
+
+	        ->add('email', 'email', 
+	        	array('constraints' => new Assert\Email(
+	        		array('message' => 'Gelieve uw email in te vullen')), 
+	        	'label' => 'Email'))
+	        ->add('password', 'password', 
+	        	array('constraints' => new Assert\NotBlank(
+	        		array('message' => 'Gelieve een Wachtwoord op te geven')), 
+	        	'label' => 'Wachtwoord'))
+	        ->getForm();
+
+	    $request = $app['request'];
+	    $errors = array();
+	   	
+	   	if ('POST' === $request->getMethod()) {
+	    	$loginform->bind($request);
+
+	    	if ($loginform->isValid()) {
+            	$data = $loginform->getData();
+            	
+				$user = $app['db']->fetchAssoc('SELECT * FROM users WHERE mail = ?', array($data['email']));
+				if($user){
+					if ($user['password'] !== md5($data['password'])) {
+						array_push($errors, 'Fout wachtwoord');
+					}
+					if (count($errors) === 0){
+						$app['session']->set('user', array('name' => $user['name']));
+						// redirect to home
+            			return $app->redirect($app['url_generator']->generate('home'));
+					}
+        		}
+        		else{
+        			array_push($errors, 'Er bestaat geen account met dit emailadres');
+        		}
+	    	}
+	    }
+
+	    // display the form
+    	return $app['twig']->render('authentication/login.twig', 
+    		array('loginform' => $loginform->createView(), 'errors' => $errors));
     }
 }

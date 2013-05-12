@@ -5,8 +5,7 @@
 
 
 	$app->mount('/', new Application\Provider\Controller\HomeController());
-	$app->mount('/register', new Application\Provider\Controller\AuthenticationController());
-
+	$app->mount('/user', new Application\Provider\Controller\AuthenticationController());
 
 		/*
 	$app->error(function (\Exception $e, $code) {

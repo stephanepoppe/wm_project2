@@ -28,12 +28,13 @@
               <li><a href="#">Element Three</a></li>
             </ul> <!-- /Sub menu -->
           </li>
-          <li>
-            <a href="#">
-              About Us
-            <span class="navbar-unread">1</span>
-            </a>
-          </li>
+          {% if app.session.get('user') %}
+            <li><a class="pull-right" href="{{ path('logout')}}">Logout</a></li>
+          {% else %}
+            <li><a class="pull-right" href="{{ path('login')}}">Login</a></li>
+            <li><a class="pull-right" href="{{ path('register')}}">Register</a></li>
+          {% endif %}
+          
         </ul>
       </div><!--/.nav-collapse -->
     </div>

@@ -1,0 +1,39 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+	
+	<div class="span5">
+	<div class="login">
+		<div class="login-form">
+			<form action="{{ path('addservice')}}" method="post" novalidate>
+				<h1>Aanmelden</h1>
+			   	<div class="control-group">
+			   		{{ form_label(addform.email) }}
+			   		{{ form_widget(addform.email) }}
+			   		{{ form_errors(addform.email) }} 
+			   	</div>
+			   	<div class="control-group">
+			   		{{ form_label(addform.password) }}
+			   		{{ form_widget(addform.password) }}
+			   		{{ form_errors(addform.password) }} 
+			   	</div>
+			   	{{ form_rest(addform) }}
+
+			   	{#  
+			   	{% if errors %}
+			   		{% for error in errors %}
+			        	<li>{{ error|e }}</li>
+			    	{% endfor %}
+        		{% endif %}
+				#}
+			    <input class="btn btn-primary btn-large btn-block" type="submit" name="submit" value="Aanmelden" />
+			    <a class="login-link" href="#">Heeft u al een account?</a>
+			</form>
+		</div>
+	</div>
+	</div>
+
+
+{% endblock %}
+
+

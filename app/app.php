@@ -6,6 +6,7 @@
 
 	$app->mount('/', new Application\Provider\Controller\HomeController());
 	$app->mount('/user', new Application\Provider\Controller\AuthenticationController());
+	$app->mount('/services', new Application\Provider\Controller\ServicesController());
 
 		/*
 	$app->error(function (\Exception $e, $code) {

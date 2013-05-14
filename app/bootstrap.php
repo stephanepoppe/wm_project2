@@ -1,5 +1,7 @@
 <?php
 
+	use Silex\Provider;
+
 	// Require Composer Autoloader
 	require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
@@ -35,3 +37,9 @@
 	$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
 	$app->register(new Silex\Provider\SessionServiceProvider());
+
+	$app->register(new Provider\WebProfilerServiceProvider(), array(
+    	'profiler.cache_dir' => __DIR__.'/../cache/profiler',
+    	'profiler.mount_prefix' => '/_profiler', // this is the default
+	));
+	$app->register(new Provider\ServiceControllerServiceProvider());

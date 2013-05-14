@@ -1,4 +1,22 @@
 $(document).ready(function() {
+
+	$('#locationText').css("display", "none");
+
+	$('#addform_location').on('click', function(){
+		var locationOpton = ($("input[type='radio']:checked").val());
+		if (locationOpton == 'actual_location'){
+			geolocation();
+			$('#locationText').css("display", "none");
+		}
+		else{
+			// todo: make textfield visibled
+			$('#locationText').css("display", "block");
+		}
+	});	
+});
+
+
+function geolocation(){
 	if (navigator.geolocation) {
   		navigator.geolocation.getCurrentPosition(success);
 	} else {
@@ -6,7 +24,20 @@ $(document).ready(function() {
 	}
 
 	function success(position) {
-		
-		alert(position.coords.latitude);
+		//alert(position.coords.latitude);
+		// key AIzaSyAjJNWOip3T_HFpH5QUdhBZbfT_uiyiYQ8
+		$.ajax({
+        url: 'http://maps.googleapis.com/maps/api/geocode/json?'+ 
+        'latlng='+ position.coords.latitude +',' + position.coords.longitude + '&sensor=true',
+        type: 'get',
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR) {
+        	console.log(data);
+        	//alert(data['results'][0]['formatted_address']);
+        },
+        error : function(jqXHR, textStatus, errorThrown) {
+            console.log('error');
+        }
+    });
 	}
-});
+}

@@ -22,24 +22,36 @@
 
 
     	public function add(Application $app){
+    		$catarr;
+    		$catarr[0] = "Selecteer een categorie";
+    		$categories = $app['db']->fetchAll('SELECT * FROM categories');
+    		foreach ($categories as $categorie => $value) {
+    			$catarr[$value['id']] = $value['name'];
+    		}
 
     		$addform = $app['form.factory']->createNamedBuilder('addform', 'form')
-	        ->add('name', 'text', 
+	        ->add('title', 'text', 
 	        	array('constraints' => new Assert\NotBlank(
-	        		array('message' => 'Gelieve een gebruikersnaam in te vullen')), 
-	        	'label' => 'Gebruikersnaam'))
-	        ->add('email', 'email',  
-	        	array('constraints' => new Assert\Email(
-	        		array('message' => 'Gelieve uw email in te vullen')), 
-	        	'label' => 'Email'))
-	        ->add('password', 'password', 
-	        	array('constraints' => new Assert\NotBlank(
-	        		array('message' => 'Gelieve een Wachtwoord op te geven')), 
-	        	'label' => 'Wachtwoord'))
-	        ->add('passwordRepeat', 'password',  
-	        	array('constraints' => new Assert\NotBlank(
-	        		array('message' => 'Gelieve het wachtwoord te herhalen')), 
-	        	'label' => 'Wachtwoord herhalen'))
+	        		array('message' => 'Gelieve een titel in te vullen')), 
+	        	'label' => 'Titel'))
+	        ->add('description', 'textarea',   
+	        	array('label' => 'Omschrijving'))
+	        ->add('categorie', 'choice', 
+	        	array(
+                	'choices' => $catarr
+                ))
+	        ->add('location', 'choice', array(
+			    'choices'   => array(
+			        'actual_location'   => 'Huidige locatie',
+			        'manual_location'   => 'Locatie opgeven',
+			    ),
+			    'multiple'  => false,
+			    'expanded' => true,
+			    'label' => 'Locatie'))
+	        ->add('locationText', 'text',   
+	        	array('label' => 'Locatie'))
+			->add('deadline', 'text',   
+	        	array('label' => 'Dag van uitvoering'))
 	        ->getForm();
 
 	    	$request = $app['request'];

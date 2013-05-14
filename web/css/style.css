@@ -7,6 +7,11 @@
 	width: 96%;
 }
 
+input[type='checkbox']{
+	float: left;
+}
+
+
 
 @media (max-width: 979px){
 	.nav-collapse, .nav-collapse.collapse {

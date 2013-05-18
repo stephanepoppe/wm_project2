@@ -9,7 +9,8 @@
 	    "symfony/translation": "~2.1",
 	    "doctrine/dbal": "2.2.*",
 	    "symfony/security": "~2.2",
-	    "silex/web-profiler": "1.0.*@dev"
+	    "silex/web-profiler": "1.0.*@dev",
+	    "knplabs/repository-service-provider": "dev-master"
     },	
     "autoload": {
 		"psr-0": {

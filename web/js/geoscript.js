@@ -22,10 +22,9 @@ function geolocation(){
 	} else {
 		 alert('not supported');
 	}
-
 	function success(position) {
-		//alert(position.coords.latitude);
-		// key AIzaSyAjJNWOip3T_HFpH5QUdhBZbfT_uiyiYQ8
+		// Reverse Geocoding (Address Lookup)
+		// source: https://developers.google.com/maps/documentation/geocoding/#ReverseGeocoding
 		$.ajax({
         url: 'http://maps.googleapis.com/maps/api/geocode/json?'+ 
         'latlng='+ position.coords.latitude +',' + position.coords.longitude + '&sensor=true',

@@ -30,6 +30,13 @@
 	    )
 	));
 
+	$app->register(new Knp\Provider\RepositoryServiceProvider(), array(
+	    'repository.repositories' => array(
+	        'services' => 'Application\\Provider\\Repository\\ServicesRepository',
+	        'categories' => 'Application\\Provider\\Repository\\CategoriesRepository',
+	    )
+	));
+
 	$app->register(new Silex\Provider\FormServiceProvider());
 
 	$app->register(new Silex\Provider\ValidatorServiceProvider());

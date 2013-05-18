@@ -24,7 +24,7 @@
     	public function add(Application $app){
     		$catarr;
     		$catarr[0] = "Selecteer een categorie";
-    		$categories = $app['db']->fetchAll('SELECT * FROM categories');
+    		$categories = $app['categories']->findAll();
     		foreach ($categories as $categorie => $value) {
     			$catarr[$value['id']] = $value['name'];
     		}
@@ -51,7 +51,10 @@
 	        ->add('locationText', 'text',   
 	        	array('label' => 'Locatie'))
 			->add('deadline', 'text',   
-	        	array('label' => 'Dag van uitvoering'))
+	        	array('attr' => array('class' => 'calendar'),
+	        		'label' => 'Dag van uitvoering',
+	        		'constraints' => new Assert\NotBlank(
+	        			array('message' => 'Gelieve een titel in te vullen'))))
 	        ->getForm();
 
 	    	$request = $app['request'];

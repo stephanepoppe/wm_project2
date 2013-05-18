@@ -14,6 +14,8 @@ Icon
 
 
 /vendor
+/cache
+
 
 composer.lock
 composer.phar

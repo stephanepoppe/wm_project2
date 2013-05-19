@@ -1,7 +1,11 @@
 <?php 
 
-	namespace application\Repository;
+	namespace Application\Provider\Repository;
 
 	class ServicesRepository extends \Knp\Repository {
-	    public function getTableName() { return 'services'; }
+	    
+		public function getTableName() { return 'services'; }
+	
+
+
 	}

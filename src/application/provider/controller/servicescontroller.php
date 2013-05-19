@@ -34,30 +34,61 @@
 	        	array('constraints' => new Assert\NotBlank(
 	        		array('message' => 'Gelieve een titel in te vullen')), 
 	        	'label' => 'Titel'))
-	        ->add('description', 'textarea',   
-	        	array('label' => 'Omschrijving'))
+	        ->add('description', 'textarea',
+	        	array('constraints' => new Assert\NotBlank(
+	        		array('message' => 'Gelieve een omschrijving in te vullen')),    
+	        	'label' => 'Omschrijving'))
+	        ->add('reward', 'text', 
+	        	array('constraints' => new Assert\NotBlank(
+	        		array('message' => 'Gelieve een belonning in te vullen')), 
+	        	'label' => 'Beloning'))
 	        ->add('categorie', 'choice', 
-	        	array(
-                	'choices' => $catarr
-                ))
-	        ->add('location', 'choice', array(
-			    'choices'   => array(
+	        	array('choices' => $catarr,
+	        	'label' => 'Categorie'))
+	        ->add('location', 'choice', 
+	        	array('choices'   => array(
+			    	'no_location' => 'Geen locatie',
 			        'actual_location'   => 'Huidige locatie',
-			        'manual_location'   => 'Locatie opgeven',
+			        'manual_location'   => 'Locatie ingeven',
 			    ),
 			    'multiple'  => false,
-			    'expanded' => true,
-			    'label' => 'Locatie'))
-	        ->add('locationText', 'text',   
-	        	array('label' => 'Locatie'))
+			    //'expanded' => true,
+			    'label' => 'Locatie',
+			    'attr' => array('class' => 'selectLoc')))
+	        ->add('locationText', 'text', array('label' => 'Locatie', 'attr' => array('class' => 'inputLoc')))
 			->add('deadline', 'text',   
 	        	array('attr' => array('class' => 'calendar'),
-	        		'label' => 'Dag van uitvoering',
-	        		'constraints' => new Assert\NotBlank(
-	        			array('message' => 'Gelieve een titel in te vullen'))))
+	        	'label' => 'Dag van uitvoering',
+	        	'constraints' => array( new Assert\NotBlank(array('message' => 'Gelieve een datum in te vullen')),
+	        		new Assert\Date(array('message' => 'Gelieve een correcte datum in te vullen')))))
+			->add('lat', 'hidden')
+			->add('lng', 'hidden')
+	        
 	        ->getForm();
 
 	    	$request = $app['request'];
+
+	    	if ('POST' === $request->getMethod()) {
+	    		$addform->bind($request);
+	    		if($addform->isValid()){
+	    			$data = $addform->getdata();
+	    			$user = $app['session']->get('user');
+		    		$app['services']->insert(array(
+		    			'title' => $data['title'],
+		    			'description' => $data['description'],
+		    			'reward' => $data['reward'],
+ 		    			'location_name' => $data['locationText'],
+		    			'location_latitude' => $data['lat'],
+		    			'location_longitude' => $data['lng'],
+		    			'author_id' => $user['id'],
+		    			'added' => date('Y-m-d H:i:s', time()),
+		    			'deadline' => date('Y-m-d H:i:s', strtotime($data['deadline'])),
+		    			'categories_id' => $data['categorie'],	
+		    		));
+		    		// @todo redirect to profile dashboard
+            		return $app->redirect($app['url_generator']->generate('home'));
+	    		}
+	    	}
 
 	    	// display the form
     		return $app['twig']->render('services/add.twig', array('addform' => $addform->createView()));

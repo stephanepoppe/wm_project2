@@ -63,7 +63,7 @@ class AuthenticationController implements ControllerProviderInterface
             				'password' => md5($data['password'])));
 
             		// store username in session
-            		$app['session']->set('user', array('name' => $data['name']));
+            		$app['session']->set('user', array('id' => $data['id'] ,'name' => $data['name']));
             		// redirect to home
             		return $app->redirect($app['url_generator']->generate('home'));
             	}
@@ -104,7 +104,7 @@ class AuthenticationController implements ControllerProviderInterface
 						array_push($errors, 'Fout wachtwoord');
 					}
 					if (count($errors) === 0){
-						$app['session']->set('user', array('name' => $user['name']));
+						$app['session']->set('user', array('id' => $user['id'], 'name' => $user['name']));
 						// redirect to home
             			return $app->redirect($app['url_generator']->generate('home'));
 					}

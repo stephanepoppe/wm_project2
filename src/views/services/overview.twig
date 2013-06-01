@@ -1,0 +1,161 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+	<div class="overview row">
+
+		<div class="span3">
+			<div class="tile">
+				<h3>Categorie</h3>
+				<ul class="tilecategories">
+					{% for categorie in categories %}
+						<li class="categorie" >
+							<label class="checkbox checked" data-id="{{categorie.id}}" for="checkbox1"><span class="icon"></span><span class="icon-to-fade"></span>
+				            <input type="checkbox" value="" id="checkbox1">
+				            {{categorie.name}}
+				          </label>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+
+			<a href="">
+			<div class="tile">
+				<h4>Zoek opdrachten in jouw buurt</h4>
+				<img src="{{ app.request.baseUrl }}/flatui/images/illustrations/map.png">
+			</div>
+			</a>
+		</div>
+
+		<div class="span9">
+			<ul class="services"></ul>
+		</div>
+
+		<div class="spinner"></div>
+	</div>	
+{% endblock %}
+
+
+{% block jqueryblock %}
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&amp;language=en"></script>
+	<script src="{{ app.request.baseUrl }}/js/gmap3/gmap3.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			//hide spinner
+			$('.spinner').hide();
+
+			var offset = 0;
+			var url = $(location).attr('href');
+
+			var getPosts = function(empty){
+				var categories = [];
+
+				if (empty == true){
+				 	$('.services').empty();
+				 }
+
+				// id's categories 
+				$('.checkbox').each( function(){
+					if ($(this).hasClass('checked')){
+						categories.push($(this).data('id'));
+					}
+				});
+
+				if (categories.length !== 0){
+					$.ajax({
+						type: 'GET',
+						url: url + '?get=serviceposts',
+						data: {offset : offset, categories : categories},
+						beforeSend: function() {
+				        	$('.spinner').show();
+				        },
+					}).done(function (data) {
+						console.log(data);
+						$(".spinner").hide();
+					 	$.each(data, function (){
+					 		//console.log($(this));
+					 		$('.services').append('<li class="tile service" data-id="'+ (this).id+'" data-lat="" data-lng=""><h3>'+ (this).title+'</h3>' +
+					 			'<span class="span9 gift">'+ (this).reward +'</span>' +
+					 			'<p>' + (this).description +'</p>' + 
+					 			'<div class="row"><div class="span6">'+
+									'<span class="fui-location-16" >' +
+										'<a class="location" href="">' + (this).location_name +'</a></span>' +
+									'<span class="fui-calendar-16">' + (this).deadline + '</span>' +
+								'</div>'+
+								'<div class="span2"><a href="#" class=" btn btn-block btn-success btn-large">Uitvoeren</a></div></div>');
+					 	});
+					});
+				}
+
+			}
+
+			// Trigger ajax call first time
+			getPosts(true);
+
+			// Trigger ajax call when the usere reaches end of the screen
+			$(window).scroll(function(){  
+				// determine when user scrolls at the bottom
+                if  ($(window).scrollTop() + 1 == $(document).height() - $(window).height()){  
+                    console.log('end');
+                    offset += 10;
+                    getPosts(false);
+                }  
+            }); 
+
+			// Trigger ajax call when categories where (un)selected
+			$('.categorie').on('click', function(e) {
+				e.preventDefault();
+				$checkedbox = $(this).find('.checkbox');
+				if($checkedbox.hasClass('checked')){
+					$checkedbox.removeClass('checked').addClass('unchecked');
+				}
+				else{
+					$checkedbox.removeClass('unchecked').addClass('checked');
+				}
+				getPosts(true);
+			});			
+
+
+			/*
+			$('.mapbox').hide();
+
+			$('.location').on('click', function(e) {
+				e.preventDefault();
+
+				var map = $(this).closest('li').find('.mapbox');
+				var lat = $(this).closest('li').data('lat');
+				var lng = $(this).closest('li').data('lng');
+				map.show();
+				map.width("750px").height("350px").gmap3({
+					map:{
+					    options:{
+					    	center: [lat, lng],
+					    	zoom: 15
+					    }
+					},
+					marker:{
+    					latLng:[lat,lng]
+			 		}	
+			 	});
+
+
+			 	$.magnificPopup.open({
+					items: {
+				    	src: '<div class="white-popup">'+  +'</div>', 
+				   		type: 'inline'
+				  	}
+				});
+			});
+
+			$('.close').on('click', function(e){
+				e.preventDefault();
+				var maps = $(document).find('.mapbox');
+				console.log(maps);
+				maps.each(function(){
+					$(this).hide();
+				});
+			});
+			*/
+		});
+	</script>
+{% endblock %}
+

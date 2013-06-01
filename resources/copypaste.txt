@@ -1,0 +1,22 @@
+<{% for service in services %}
+					<li class="tile service" data-id={{service.id}} data-lat="{{service.location_latitude}}" data-lng="{{service.location_longitude}}">
+						<h3>{{service.title}}</h3>
+						<span class="span9 gift">{{service.reward}}</span>
+						<p>{{service.description}}</p>
+						<div class="row">
+							<div class="span6">
+								<span class="fui-location-16" >
+									<a class="location" href="">{{service.location_name}}</a>
+								</span>
+								<span class="fui-calendar-16">{{service.deadline|date("d/m/Y")}}</span>
+							</div>
+							<div class="span2">
+								<a href="#" class=" btn btn-block btn-success btn-large">Uitvoeren</a>
+							</div>
+						</div>
+
+						<div class="mapbox white-popup mfp-hide">
+							<div class="map"><iframe></iframe></div>
+						</div>
+					</li>
+				{% endfor %}

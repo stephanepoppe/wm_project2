@@ -3,7 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 	    <title>Swappy</title>
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
 
 	    <!-- Loading Bootstrap -->
 	    <link href="{{ app.request.baseUrl }}/css/bootstrap.css" rel="stylesheet">
@@ -12,21 +13,26 @@
 	    <!-- Loading Flat UI -->
 	    <link href="{{ app.request.baseUrl }}/flatui/css/flat-ui.css" rel="stylesheet">
 
+	    <link href="{{ app.request.baseUrl }}/js/Magnific-Popup/dist/magnific-popup.css" rel="stylesheet">
+
 	    <!-- Style css -->
 	    <link href="{{ app.request.baseUrl }}/css/style.css" rel="stylesheet">
 	    <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet">
 
 
+
 	</head>
 
 	<body>
-		<header>
-			{% include 'header.twig' %}
-		</header>
 		<div class="container">
-			<div class="span12">
-				{% block content %}
-    			{% endblock %}
+			<header>
+				{% include 'header.twig' %}
+			</header>
+			<div class="row">
+				<div class="span12">
+					{% block content %}
+    				{% endblock %}
+    			</div>
     		</div>
 		</div>
 	</body>
@@ -34,6 +40,8 @@
 
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<script src="{{ app.request.baseUrl }}/js/Magnific-Popup/dist/jquery.magnific-popup.min.js"></script>
+
 	{% block jqueryblock %}
     {% endblock %}
 

@@ -16,6 +16,8 @@
     	{
 	        $controllers = $app['controllers_factory'];
 	        $controllers->match('/add', array($this,"add"))->bind('addservice');
+	        $controllers->match('/overview', array($this,"overview"))->bind('servicesoverview');
+	        $controllers->match('/map', array($this,"map"))->bind('map');
 
 	        return $controllers;
     	}
@@ -94,4 +96,27 @@
     		return $app['twig']->render('services/add.twig', array('addform' => $addform->createView()));
     	}
 
+    	public function overview(Application $app){
+    		$categories = $app['categories']->findAll();
+
+
+    		if('GET' === $app['request']->getMethod() && $app['request']->query->get('get')){
+
+    			$offset = $app['request']->query->get('offset');
+    			$categories = $app['request']->query->get('categories');
+
+    			$services = $app['services']->getAllServicesByCategories($categories, $offset);
+
+    			return $app->json($services, 201);
+    		}
+
+    		return $app['twig']->render('services/overview.twig', 
+    			array(/*'services' => $services,*/
+    				'categories' => $categories));
+
+    	}
+
+    	public function map(Application $app){
+    		return $app['twig']->render('services/map.twig');
+    	}
 	}

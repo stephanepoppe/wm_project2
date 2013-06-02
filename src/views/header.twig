@@ -1,40 +1,25 @@
-
-
-<!--
   <div class="navbar navbar-inverse">
     <div class="navbar-inner">
      <div class="span12">
+      <div class="logoblock">
+        <a class="logo" href="#">Swappy</a>
+        <a class="hamburger" href=""><img src="{{ app.request.baseUrl }}/img/hamburger.gif"></a>
+      </div>
+
       <div class="nav-collapse collapse">
         <ul class="nav">
-          <li>
+          <li class="">
             <a href="#">
-              Swappy
-              <span class="navbar-unread">1</span>
-              </a>
-          </li>
-          <li class="active">
-            <a href="#">
-              Messages
+              Diensten
               <span class="navbar-unread">1</span>
             </a>
             <ul>
-              <li><a href="#">Element One</a></li>
+              <li><a href="#">Overzicht</a></li>
               <li>
-                <a href="#">Sub menu</a>
-                <ul>
-                  <li><a href="#">Element One</a></li>
-                  <li><a href="#">Element Two</a></li>
-                  <li><a href="#">Element Three</a></li>
-                </ul> <!-- /Sub menu --> <!--
+                <a href="#">Kaartje</a>
               </li>
-              <li><a href="#">Element Three</a></li>
-            </ul> <!-- /Sub menu --> 
-          <!-- </li> -->
-
-          <!-- this creates a button with 3 lines indicating that a menu is there
-     if the button is pressed -->
-
-
+            </ul> <!-- /Sub menu -->
+          </li>
           {% if app.session.get('user') %}
             <li><a class="pull-right" href="{{ path('logout')}}">Logout</a></li>
           {% else %}
@@ -42,9 +27,8 @@
             <li><a class="pull-right" href="{{ path('register')}}">Register</a></li>
           {% endif %}
           
-          <!--
         </ul>
-      </div>
+      </div><!--/.nav-collapse -->
     </div>
   </div>
-</div>-->
+</div>

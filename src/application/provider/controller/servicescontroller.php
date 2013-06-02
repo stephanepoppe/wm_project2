@@ -117,6 +117,12 @@
     	}
 
     	public function map(Application $app){
+
+    		if('GET' === $app['request']->getMethod() && $app['request']->query->get('maps')){
+    			$services = $app['services']->getAllServices();
+    			return $app->json($services, 201);
+    		}
+
     		return $app['twig']->render('services/map.twig');
     	}
 	}

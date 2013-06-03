@@ -18,6 +18,7 @@
 	        $controllers->match('/add', array($this,"add"))->bind('addservice');
 	        $controllers->match('/overview', array($this,"overview"))->bind('servicesoverview');
 	        $controllers->match('/map', array($this,"map"))->bind('map');
+	        $controllers->match('/status', array($this,"status"));
 
 	        return $controllers;
     	}
@@ -195,5 +196,31 @@
     		}
 
     		return $app['twig']->render('services/map.twig');
+    	}
+
+
+    	public function status(Application $app){
+    		if('POST' === $app['request']->getMethod()){
+    			$postData = $app['request']->request->all();
+    			$user = $app['session']->get('user');
+
+    			$service = $app['services']->getServiceById($postData['id']);
+    			$output = $app['services']->updateStatusToDone($postData['id']);
+
+    			$message = 'Proficiat! de opdracht ' . $service['title'] . 
+					    		'werd succesvol afgerond!' . '.';
+
+
+    			$app['messages']->insert(array(
+					    'sender_id' => $user['id'],
+					    'receiver_id' => $app['services']->getExecutorId($postData['id']),
+					    'message' => $message,
+					    //'data' => time(),
+					    'status' => 'unread',
+					));
+
+    			return $app->json($output, 201);
+    		}
+    		return $app->json(null, 203);
     	}
 	}

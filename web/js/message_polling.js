@@ -2,7 +2,6 @@
 
 $(document).ready(function(){
 
-	console.log(window.location.origin);
 
 	setInterval(function() {
     	$.ajax({
@@ -18,7 +17,7 @@ $(document).ready(function(){
   						'<div class="buttons"><a class="closeNote" href="">Sluiten</a></div></div>');
 
 				$.post(window.location.origin + '/messages/user', {id: data[0]['id']}, function(data, textStatus, jqXHR) {
-					console.log(data);
+					//console.log(data);
 				});
 
 				$('.closeNote').on('click', function(e){

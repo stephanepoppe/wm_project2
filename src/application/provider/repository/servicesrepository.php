@@ -77,6 +77,12 @@
 
 		}
 
+		public function updateStatusToDone($id){
+			return $this->db->update('services', array('status' => 'done') 
+				, array('id' => $id));
+
+		}
+
 		public function getAssignedTasks($userId){
 			return $this->db->fetchAll('SELECT * FROM services WHERE executor_id = 
 				? AND status = "assigned"', array($userId));
@@ -84,12 +90,16 @@
 
 
 		public function getTasksCreatedByUser($userId){
-			return $this->db->fetchAll('SELECT * FROM services WHERE author_id = ?', array($userId));
+			return $this->db->fetchAll('SELECT * FROM services WHERE status = "pending" AND author_id = ?', array($userId));
 		}
 
 
 		public function getAuthorId($serviceId){
 			return $this->db->fetchColumn('SELECT author_id FROM services WHERE id = ?', array($serviceId));
+		}
+
+		public function getExecutorId($serviceId){
+			return $this->db->fetchColumn('SELECT executor_id FROM services WHERE id = ?', array($serviceId));
 		}
 
 

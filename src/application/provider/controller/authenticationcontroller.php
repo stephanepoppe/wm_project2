@@ -87,8 +87,11 @@ class AuthenticationController implements ControllerProviderInterface
             				'mail' => $data['email'],
             				'password' => md5($data['password'])));
 
+
+                    $userId = $app['db']->fetchColumn('SELECT id FROM users WHERE name = ?', array($data['name']));
+
             		// store username in session
-            		$app['session']->set('user', array('id' => $data['id'] ,'name' => $data['name'], 'mail' => $data['email']));
+            		$app['session']->set('user', array('id' => $userId ,'name' => $data['name'], 'mail' => $data['email']));
             		// redirect to home
             		return $app->redirect($app['url_generator']->generate('home'));
             	}

@@ -9,6 +9,7 @@
 			<div class="row">
 				<div class="span4">
 					<h5>TODO</h5>
+					{% if todos|length > 0 %}
 	         		<div class="todo mrm">
 	            		<ul>
 	            			{% for todo in todos %}
@@ -22,17 +23,20 @@
 	                			</div>
 	              			</li>
 	  						{% endfor %}
-
 	            		</ul>
 	          		</div>
+	          		{% else %}
+	          			<span>Je todo-lijst is leeg</span>
+		          	{% endif %}
 	        	</div> <!-- /todo list -->
         	
 	        	<div class="span4">
 						<h5>Opdrachten door jou geplaatst</h5>
-		         		<div class="todo mrm">
+						{% if tasks|length > 0 %}
+		         		<div id="uTask" class="todo mrm">
 		            		<ul>
 		            			{% for task in tasks %}
-		              			<li class="">
+		              			<li class="task" data-id={{task.id}} >
 		                			<div class="todo-icon fui-calendar-24"></div>
 		                			<div class="todo-content">
 		                  				<h4 class="todo-name">
@@ -45,6 +49,9 @@
 
 		            		</ul>
 		          		</div>
+		          		{% else %}
+		          			<span>Er zijn geen openstaande diensten</span>
+		          		{% endif %}
 		        	</div> <!-- /todo list -->
 		        </div>
         	</div>
@@ -59,3 +66,9 @@
 	</div>
 	
 {% endblock %}
+
+{% block jqueryblock %}
+	<script type="text/javascript" src="{{ app.request.baseUrl }}/js/user_profile.js"></script>
+{% endblock %}
+
+

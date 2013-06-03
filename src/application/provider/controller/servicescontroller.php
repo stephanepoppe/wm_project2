@@ -85,7 +85,8 @@
 		    			'author_id' => $user['id'],
 		    			'added' => date('Y-m-d H:i:s', time()),
 		    			'deadline' => date('Y-m-d H:i:s', strtotime($data['deadline'])),
-		    			'categories_id' => $data['categorie'],	
+		    			'categories_id' => $data['categorie'],
+		    			'status' => 'pending',	
 		    		));
 		    		// @todo redirect to profile dashboard
             		return $app->redirect($app['url_generator']->generate('home'));
@@ -101,7 +102,6 @@
 
 
     		if('GET' === $app['request']->getMethod() && $app['request']->query->get('get')){
-
     			$offset = $app['request']->query->get('offset');
     			$categories = $app['request']->query->get('categories');
 
@@ -110,9 +110,31 @@
     			return $app->json($services, 201);
     		}
 
+    		if('POST' === $app['request']->getMethod()){
+    			$postData = $app['request']->request->all();
+    			$user = $app['session']->get('user');
+    			if(!empty($user)){
+    				
+    				$output[] = $app['services']->assignService($postData['id'], $user['id']);
+    				
+    				$output[] = $app['messages']->insert(array(
+					    'sender_id' => $user['id'],
+					    'receiver_id' => $app['services']->getAuthorId($postData['id']),
+					    'message' => 'Opdracht voltooien',
+					    //'data' => time(),
+					    'status' => 'unread',
+					));
+					
+					return $app->json($output, 201);
+    			}
+    			else {
+    				return $app->json(null, 203);
+    			}
+    		}
+
+
     		return $app['twig']->render('services/overview.twig', 
-    			array(/*'services' => $services,*/
-    				'categories' => $categories));
+    			array('categories' => $categories));
 
     	}
 

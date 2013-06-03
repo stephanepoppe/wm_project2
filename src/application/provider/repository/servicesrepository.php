@@ -46,7 +46,7 @@
 			INNER JOIN categories ON categories.id = services.categories_id';
 
 			if (!empty($categories)){
-				$where = ' WHERE ';
+				$where = ' WHERE (';
 				$i = 1;
 				foreach ($categories as $categorie) {
 					$where .= ' categories_id = ' .$categorie;
@@ -55,7 +55,11 @@
 					} 
 					$i++;
 				}
+				$where .= ') AND (status = "pending")';
 				$query .= $where;
+			}
+			else {
+				$query .= ' WHERE status = pending';
 			}
 
 			$query .= ' ORDER BY deadline ';
@@ -63,6 +67,19 @@
 
 
 			return $this->db->fetchAll($query);
+		}
+
+
+		public function assignService($id, $executor_id){
+			//UPDATE `services` SET `status`="assigned", `executor_id`=1 WHERE `id` = 6
+			return $this->db->update('services', array('status' => 'assigned', 
+				'executor_id' => $executor_id), array('id' => $id));
+
+		}
+
+
+		public function getAuthorId($serviceId){
+			return $this->db->fetchColumn('SELECT author_id FROM services WHERE id = ?', array($serviceId));
 		}
 
 	}

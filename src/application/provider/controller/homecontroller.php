@@ -15,7 +15,7 @@ class HomeController implements ControllerProviderInterface
         $controllers = $app['controllers_factory'];
 
         $controllers->get('/', function (Application $app) {
-        	return $app['twig']->render('index/home.twig');
+        	return $app->redirect($app['url_generator']->generate('servicesoverview'));
         })->bind('home');
 
         return $controllers;

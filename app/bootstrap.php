@@ -34,6 +34,7 @@
 	    'repository.repositories' => array(
 	        'services' => 'Application\\Provider\\Repository\\ServicesRepository',
 	        'categories' => 'Application\\Provider\\Repository\\CategoriesRepository',
+	        'messages' => 'Application\\Provider\\Repository\\MessagesRepository',
 	    )
 	));
 

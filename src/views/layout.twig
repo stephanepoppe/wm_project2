@@ -24,8 +24,6 @@
 	    <!-- Google fonts -->
 	   	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
 
-
-
 	</head>
 
 	<body>
@@ -33,6 +31,10 @@
 			<header>
 				{% include 'header.twig' %}
 			</header>
+			<div class="row">
+				<div id="alerts" class="span12">
+				</div>
+			</div>
 			<div class="row">
 				<div class="span12">
 					{% block content %}
@@ -45,8 +47,10 @@
 
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<script type="text/javascript" src="{{app.request.baseUrl}}/js/bootstrap.min.js"></script>
 	<script src="{{ app.request.baseUrl }}/js/Magnific-Popup/dist/jquery.magnific-popup.min.js"></script>
 	<script src="{{ app.request.baseUrl }}/js/responsive.js"></script>
+	<script src="{{ app.request.baseUrl }}/js/message_polling.js"></script>
 
 	{% block jqueryblock %}
     {% endblock %}

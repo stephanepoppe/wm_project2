@@ -2,6 +2,7 @@ $(document).ready(function() {
 
 
 		$('.locationtext').hide();
+		$('.locfound').hide();
 
 		$('.selectLoc').change(function() {
 			var locationOption = ($('select.selectLoc option:selected').val());
@@ -29,6 +30,7 @@ $(document).ready(function() {
 					        		$('.locationtext').show();
 					        		$('#addform_lat').val(data.results[0]['geometry']['location']['lat']);
 									$('#addform_lng').val(data.results[0]['geometry']['location']['lng']);
+									
 					        	}
 					        },
 					        error : function(jqXHR, textStatus, errorThrown) {
@@ -49,7 +51,6 @@ $(document).ready(function() {
 			var inputsearch = $('.inputLoc').val();
 			//https://maps.googleapis.com/maps/api/geocode/output?parameters
 			
-			/*
 			$.ajax({
 				url: 'http://maps.googleapis.com/maps/api/geocode/json?'+ 
 					'address='+ inputsearch + '&sensor=false',
@@ -61,16 +62,18 @@ $(document).ready(function() {
 						$('#addform_lat').val(data.results[0]['geometry']['location']['lat']);
 						$('#addform_lng').val(data.results[0]['geometry']['location']['lng']);
 						//console.log(data.results[0]['geometry']['location']['lng']);
+						$('.locfound').text('Locatie Gevonden!').show();
 					}
 					else{
-						console.log('boempatat');
+						$('.locfound').text('Locatie niet gevonden!').show();
 					}
 				},
 				error : function(jqXHR, textStatus, errorThrown) {
 					console.log('error');
+					
 				}
 			});
-/**/
+			/**/
 		});
 
 });

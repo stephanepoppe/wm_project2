@@ -115,15 +115,28 @@
     			$user = $app['session']->get('user');
     			if(!empty($user)){
     				
+    				$service = $app['services']->getServiceById($postData['id']);
+
     				$output[] = $app['services']->assignService($postData['id'], $user['id']);
+
+    				$message = 'De opdracht:' . $service['title'] . 
+					    		'zal uitgevoerd worden door ' . $user['name'] . '.' .
+					    		' Locatie: ' . $service['location_name'];
     				
     				$output[] = $app['messages']->insert(array(
 					    'sender_id' => $user['id'],
 					    'receiver_id' => $app['services']->getAuthorId($postData['id']),
-					    'message' => 'Opdracht voltooien',
+					    'message' => $message,
 					    //'data' => time(),
 					    'status' => 'unread',
 					));
+
+					$message = \Swift_Message::newInstance()
+				        ->setSubject('Swappy: ' . $service['title'])
+				        ->setFrom(array('stephanepoppe@gmail.com'))
+				        ->setTo(array('stephanepoppe@gmail.com'))
+				        ->setBody($message);
+					
 					
 					return $app->json($output, 201);
     			}
@@ -150,16 +163,30 @@
     			$user = $app['session']->get('user');
     			if(!empty($user)){
     				
+    				$service = $app['services']->getServiceById($postData['id']);
+
     				$output[] = $app['services']->assignService($postData['id'], $user['id']);
+
+    				$message = 'De opdracht:' . $service['title'] . 
+					    		'zal uitgevoerd worden door ' . $user['name'] . '.' .
+					    		' Locatie: ' . $service['location_name'];
     				
     				$output[] = $app['messages']->insert(array(
 					    'sender_id' => $user['id'],
 					    'receiver_id' => $app['services']->getAuthorId($postData['id']),
-					    'message' => 'Opdracht voltooien',
+					    'message' => $message,
 					    //'data' => time(),
 					    'status' => 'unread',
 					));
+
+    				
+					$message = \Swift_Message::newInstance()
+				        ->setSubject('Swappy: ' . $service['title'])
+				        ->setFrom(array('noreply@yoursite.com'))
+				        ->setTo(array('feedback@yoursite.com'))
+				        ->setBody($request->get($message));
 					
+					$output = $app['services']->getServiceById($postData['id']);
 					return $app->json($output, 201);
     			}
     			else {

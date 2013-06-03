@@ -19,12 +19,37 @@ class AuthenticationController implements ControllerProviderInterface
         $controllers->match('/register', array($this,"registerForm"))->bind('register');
         $controllers->match('/login', array($this,"loginForm"))->bind('login');
         $controllers->match('/logout', array($this,"logout"))->bind('logout');
+        $controllers->match('/profile', array($this,"profile"))->bind('profile');
 
         return $controllers;
     }
 
+
+
+    public function profile(Application $app){
+
+    	$assigned = array();
+    	$done = array();
+    	$posts = array();
+    	$user = $app['session']->get('user');
+
+
+    	if ($app['session']->get('user')){
+    		$assigned = $app['services']->getAssignedTasks($user['id']);
+    		$posts = $app['services']->getTasksCreatedByUser($user['id']);
+    		//var_dump($assignedServices);
+    		//die();
+    	}
+    	else{
+    		return $app->redirect($app['url_generator']->generate('home'));
+    	}
+
+    	return $app['twig']->render('authentication/profile.twig', array('todos' => $assigned, 'tasks' => $posts));
+    }
+
+
     public  function logout(Application $app){
-    	$app['session']->clear('name');
+    	$app['session']->clear('user');
     	return $app->redirect($app['url_generator']->generate('home'));
     }
 
@@ -63,7 +88,7 @@ class AuthenticationController implements ControllerProviderInterface
             				'password' => md5($data['password'])));
 
             		// store username in session
-            		$app['session']->set('user', array('id' => $data['id'] ,'name' => $data['name']));
+            		$app['session']->set('user', array('id' => $data['id'] ,'name' => $data['name'], 'mail' => $data['email']));
             		// redirect to home
             		return $app->redirect($app['url_generator']->generate('home'));
             	}

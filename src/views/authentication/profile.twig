@@ -1,0 +1,61 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+	
+	<div class="row">
+		<div class="span9">
+			<h2>Profiel</h2>
+			<hr>
+			<div class="row">
+				<div class="span4">
+					<h5>TODO</h5>
+	         		<div class="todo mrm">
+	            		<ul>
+	            			{% for todo in todos %}
+	              			<li class="">
+	                			<div class="todo-icon fui-calendar-24"></div>
+	                			<div class="todo-content">
+	                  				<h4 class="todo-name">
+	                    				<strong>{{todo.title}}</strong>
+	                  				</h4>
+	                  				{{todo.location_name}}
+	                			</div>
+	              			</li>
+	  						{% endfor %}
+
+	            		</ul>
+	          		</div>
+	        	</div> <!-- /todo list -->
+        	
+	        	<div class="span4">
+						<h5>Opdrachten door jou geplaatst</h5>
+		         		<div class="todo mrm">
+		            		<ul>
+		            			{% for task in tasks %}
+		              			<li class="">
+		                			<div class="todo-icon fui-calendar-24"></div>
+		                			<div class="todo-content">
+		                  				<h4 class="todo-name">
+		                    				<strong>{{task.title}}</strong>
+		                  				</h4>
+		                  				{{task.location_name}}
+		                			</div>
+		              			</li>
+		  						{% endfor %}
+
+		            		</ul>
+		          		</div>
+		        	</div> <!-- /todo list -->
+		        </div>
+        	</div>
+		<div class="span3">
+			<a class="btn btn-large btn-block" href="{{path('addservice')}}">Opdracht Toevoegen</a>
+			<a class="btn btn-large btn-block btn-success" href="{{path('servicesoverview')}}">Ga aan de slag</a>
+			<div class="tile">
+				<h4>Zoek opdrachten in jouw buurt</h4>
+				<img src="{{ app.request.baseUrl }}/flatui/images/illustrations/map.png">
+			</div>
+		</div>
+	</div>
+	
+{% endblock %}

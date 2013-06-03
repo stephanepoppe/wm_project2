@@ -10,7 +10,8 @@
 	    "doctrine/dbal": "2.2.*",
 	    "symfony/security": "~2.2",
 	    "silex/web-profiler": "1.0.*@dev",
-	    "knplabs/repository-service-provider": "dev-master"
+	    "knplabs/repository-service-provider": "dev-master",
+	    "swiftmailer/swiftmailer": ">=4.1.2,<4.2-dev"
     },	
     "autoload": {
 		"psr-0": {

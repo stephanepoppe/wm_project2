@@ -34,7 +34,9 @@
 			   	<div class="control-group locationtext">
 			   		{{ form_label(addform.locationText) }}
 			   		{{ form_widget(addform.locationText) }}
-			   		{{ form_errors(addform.locationText) }} 	
+			   		{{ form_errors(addform.locationText) }} 
+			   		<span class="fui-location-24 locfound"></span>	
+			   		
 			   	</div>
 			   	<div class="control-group">
 			   		{{ form_label(addform.deadline) }}
@@ -50,7 +52,10 @@
 			    	{% endfor %}
         		{% endif %}
 				#}
-			    <input class="span2 btn btn-large btn-block" type="submit" name="submit" value="Toevoegen" />
+				<div class="span2">
+					<input class="span2 btn btn-large btn-block" type="submit" name="submit" value="Toevoegen" />
+				</div>
+			    
 			</form>
 	</div>
 	</div>

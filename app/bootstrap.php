@@ -50,4 +50,7 @@
     	'profiler.cache_dir' => __DIR__.'/../cache/profiler',
     	'profiler.mount_prefix' => '/_profiler', // this is the default
 	));
+
 	$app->register(new Provider\ServiceControllerServiceProvider());
+
+	$app->register(new Silex\Provider\SwiftmailerServiceProvider());

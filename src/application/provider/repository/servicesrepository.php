@@ -14,7 +14,7 @@
 				services.location_name, 
 				services.location_latitude,
 				services.location_longitude,
-				services.deadline, 
+				DATE_FORMAT(services.deadline,"%d/%m/%Y") AS deadline, 
   				users.name as users_name, 
   				services.author_id, 
   				categories.name as categories_name, 
@@ -22,6 +22,7 @@
  			FROM services
 			INNER JOIN users ON services.author_id = users.id
 			INNER JOIN categories ON categories.id = services.categories_id
+			WHERE status = "pending"
 			ORDER BY deadline');
 		}
 
@@ -36,7 +37,7 @@
 				services.location_name, 
 				services.location_latitude,
 				services.location_longitude,
-				services.deadline, 
+				DATE_FORMAT(services.deadline,"%d/%m/%Y") AS deadline, 
   				users.name as users_name, 
   				services.author_id, 
   				categories.name as categories_name, 
@@ -71,7 +72,6 @@
 
 
 		public function assignService($id, $executor_id){
-			//UPDATE `services` SET `status`="assigned", `executor_id`=1 WHERE `id` = 6
 			return $this->db->update('services', array('status' => 'assigned', 
 				'executor_id' => $executor_id), array('id' => $id));
 

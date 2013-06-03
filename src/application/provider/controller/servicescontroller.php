@@ -145,6 +145,28 @@
     			return $app->json($services, 201);
     		}
 
+    		if('POST' === $app['request']->getMethod()){
+    			$postData = $app['request']->request->all();
+    			$user = $app['session']->get('user');
+    			if(!empty($user)){
+    				
+    				$output[] = $app['services']->assignService($postData['id'], $user['id']);
+    				
+    				$output[] = $app['messages']->insert(array(
+					    'sender_id' => $user['id'],
+					    'receiver_id' => $app['services']->getAuthorId($postData['id']),
+					    'message' => 'Opdracht voltooien',
+					    //'data' => time(),
+					    'status' => 'unread',
+					));
+					
+					return $app->json($output, 201);
+    			}
+    			else {
+    				return $app->json(null, 203);
+    			}
+    		}
+
     		return $app['twig']->render('services/map.twig');
     	}
 	}

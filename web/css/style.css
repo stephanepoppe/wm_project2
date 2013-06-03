@@ -88,12 +88,17 @@ input[type='checkbox']{
   color: #FFF;
   text-decoration: none;
   margin-right: 20px;
+  margin-left: 20px;
   display: block;
   padding-top: 7px;
 }
 
 .hamburger{
   display: none;
+}
+
+#usermenu{
+  margin-left: -20px;
 }
 
 
@@ -149,7 +154,6 @@ li.service h3, li.service p{
 */
 
 
- 
 .notification {
   min-height: 80px;
   min-width: 310px;
@@ -220,7 +224,14 @@ li.service h3, li.service p{
   top: 50px;
 }
 
+/*
+  Icon-font
+*/
 
+.fui-man-24{
+  display: block;
+  padding-left: 5px;
+}
 
 /*
   Responsive
@@ -241,6 +252,7 @@ li.service h3, li.service p{
     text-align: center;
     display: block;
     margin-right: 0px;
+    margin-left: 0px;
     line-height: 50px;
   }
 

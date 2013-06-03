@@ -35,8 +35,8 @@
 					 			'<span class="span9 gift">'+ (this).reward +'</span>' +
 					 			'<p>' + (this).description +'</p>' + 
 					 			'<div class="row"><div class="span6">'+
-									'<span class="fui-location-16" >' +
-										'<a class="location" href="">' + (this).location_name +'</a></span>' +
+					 				'<span class="fui-man-16" >' + (this).users_name +'</a></span>' +
+									'<span class="fui-location-16" >' + (this).location_name +'</a></span>' +
 									'<span class="fui-calendar-16">' + (this).deadline + '</span>' +
 								'</div>'+
 								'<div class="span2"><a href="" class="assign btn btn-block btn-success btn-large">Uitvoeren</a></div></div></li>'));
@@ -78,6 +78,9 @@
 											  			'<button type="button" class="close" data-dismiss="alert">&times;</button>' +
 											  			'<strong>Proficiat! </strong>Deze opdracht is aan jou toegewezen, de opdrachtgever wordt verwittigd</div>');
 											  	}
+
+											  	$('.services').find('li[data-id = "'+ id +'"]').remove();
+
 											  	$.magnificPopup.close();
 											});
 							 			});

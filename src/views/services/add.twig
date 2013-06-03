@@ -2,7 +2,8 @@
 
 {% block content %}
 	{% if app.session.get('user') %}
-	<div class="span10">
+	<div class="row">
+	<div class="span8">
 			<form action="{{ path('addservice')}}" method="post" novalidate>
 				<h1>Toevoegen</h1>
 			   	<div class="control-group">
@@ -49,8 +50,9 @@
 			    	{% endfor %}
         		{% endif %}
 				#}
-			    <input class="btn btn-large btn-block" type="submit" name="submit" value="Toevoegen" />
+			    <input class="span2 btn btn-large btn-block" type="submit" name="submit" value="Toevoegen" />
 			</form>
+	</div>
 	</div>
 	{%  else  %}
 		<p>Je moet ingelogd zijn hiervoor<p>

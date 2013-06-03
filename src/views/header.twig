@@ -1,34 +1,51 @@
+  <div class="row">
+  <div class="span12">
   <div class="navbar navbar-inverse">
     <div class="navbar-inner">
-     <div class="span12">
+
       <div class="logoblock">
-        <a class="logo" href="#">Swappy</a>
+        <a class="logo" href="{{path('servicesoverview')}}">Swappy</a>
         <a class="hamburger" href=""><img src="{{ app.request.baseUrl }}/img/hamburger.gif"></a>
       </div>
 
       <div class="nav-collapse collapse">
         <ul class="nav">
           <li class="">
-            <a href="#">
+            <a href="{{path('servicesoverview')}}">
               Diensten
               <span class="navbar-unread">1</span>
             </a>
             <ul>
-              <li><a href="#">Overzicht</a></li>
+              <li><a href="{{ path('servicesoverview')}}">Overzicht</a></li>
               <li>
-                <a href="#">Kaartje</a>
+                <a href="{{ path('map')}}">Kaartje</a>
               </li>
             </ul> <!-- /Sub menu -->
           </li>
-          {% if app.session.get('user') %}
-            <li><a class="pull-right" href="{{ path('logout')}}">Logout</a></li>
-          {% else %}
+        </ul>
+        {% if app.session.get('user') %}
+        <ul id="usermenu" class="nav pull-right">
+            <li>
+              {% set user = app.session.get('user') %}
+              {% set name = user['name'] %}
+              <a class="fui-man-24" style="color: white" href="">{{name}}</a>
+              <ul>
+                <li><a href="{{ path('addservice')}}">Toevoegen</a></li>
+                <li>
+                   <a href="{{ path('logout')}}">Logout</a>
+                </li>
+              </ul> <!-- /Sub menu -->
+            </li>
+
+        </ul>
+        {% else %}
+        <ul class="nav pull-right">
             <li><a class="pull-right" href="{{ path('login')}}">Login</a></li>
             <li><a class="pull-right" href="{{ path('register')}}">Register</a></li>
-          {% endif %}
-          
         </ul>
+        {% endif %}
       </div><!--/.nav-collapse -->
     </div>
   </div>
+</div>
 </div>

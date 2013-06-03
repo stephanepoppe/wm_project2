@@ -48,13 +48,15 @@ $(document).ready(function() {
 			event.preventDefault();
 			var inputsearch = $('.inputLoc').val();
 			//https://maps.googleapis.com/maps/api/geocode/output?parameters
+			
+			/*
 			$.ajax({
 				url: 'http://maps.googleapis.com/maps/api/geocode/json?'+ 
 					'address='+ inputsearch + '&sensor=false',
 				type: 'get',
 				dataType: 'json',
 				success: function(data, textStatus, jqXHR) {
-					//console.log(data);
+					console.log(data);
 					if (data.status === 'OK'){
 						$('#addform_lat').val(data.results[0]['geometry']['location']['lat']);
 						$('#addform_lng').val(data.results[0]['geometry']['location']['lng']);
@@ -68,6 +70,7 @@ $(document).ready(function() {
 					console.log('error');
 				}
 			});
+/**/
 		});
 
 });
